@@ -48,8 +48,9 @@ export default function rollupPluginInjectProcessEnv(env = {}, options: Options 
         },
         load(id: string) {
             if (id === VIRTUAL_MODULE_ID) {
-                return `(function() {
-    const env = ${ JSON.stringify(env) }
+                return `!function(t){function e(){var e=this||self;e.globalThis=e,delete t.prototype._T_}"object"!=typeof globalThis&&(this?e():(t.defineProperty(t.prototype,"_T_",{configurable:!0,get:e}),_T_))}(Object);
+(function() {
+    var env = ${JSON.stringify(env)};
     try {
         if (process) {
             process.env = Object.assign({}, process.env);
@@ -57,7 +58,7 @@ export default function rollupPluginInjectProcessEnv(env = {}, options: Options 
             return;
         }
     } catch (e) {} // avoid ReferenceError: process is not defined
-    globalThis.process = { env:env }
+    globalThis.process = { env:env };
 })();
 `;
             }
